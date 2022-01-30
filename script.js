@@ -1,8 +1,11 @@
 //VARIABLES////////////////////////////////////////////////////////////////////////////
 
 //current date and time
+var now = moment();
 var datetime = null;
         date = null;
+
+
 //local storage and button variables
 buttonEl = document.getElementById("saveInput");
 
@@ -32,10 +35,6 @@ function saveToLocalStorage (elementId) {
 //function to change the colors of the events as the hours pass--gray for hours past, green for current and hours to come//
 function hourlyColorChange () {
 
-    var calendarHourId;
-    var calendarHour;
-    var currentCalendarHourMomentDate;
-    var inputBoxToColor;
     var scheduleIDList = [
         {
             hour: "eightam",
@@ -79,17 +78,22 @@ function hourlyColorChange () {
         }
     ]
 
+    var currentTime;
+    var calendarHourId;
+    var calendarHour;
+    var inputBoxToColor;
+    var hour;
+
     for (let i = 0; i < scheduleIDList.length; i++) {
         calendarHourId = scheduleIDList[i].hour;
         calendarHour = document.getElementById(calendarHourId);
-        currentCalendarHourMomentDate=moment(new Date().setHours(calendarHour.innerText.split(":")[0]));
-        currentCalendarHourMomentDate.format('dddd, MMMM Do YYYY, h:mm:ss a');
-        console.log(currentCalendarHourMomentDate);
+        currentTime = new Date();
+        hour = parseInt(calendarHour.innerText.split(":")[0]);
         inputBoxToColor = document.getElementById(scheduleIDList[i].input);
 
-        if (currentCalendarHourMomentDate === date) {
+        if (hour === currentTime.getHours()) {
             inputBoxToColor.setAttribute("style", "background-color: red");
-        } else if (currentCalendarHourMomentDate < date) {
+        } else if (hour < currentTime.getHours()) {
             inputBoxToColor.setAttribute("style", "background-color: grey");
         } else {
             inputBoxToColor.setAttribute("style", "background-color: green");
